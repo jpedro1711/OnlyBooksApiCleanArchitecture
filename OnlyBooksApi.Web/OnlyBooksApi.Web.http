@@ -1,0 +1,6 @@
+@OnlyBooksApi.Web_HostAddress = http://localhost:5195
+
+GET {{OnlyBooksApi.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
