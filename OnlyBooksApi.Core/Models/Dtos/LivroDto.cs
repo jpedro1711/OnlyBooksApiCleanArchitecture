@@ -11,5 +11,6 @@ namespace OnlyBooksApi.Core.Models.Dtos
         public double NotaAvaliacao { get; set; } = 0;
         public int totalAvaliações { get; set; } = 0;
         public int GeneroLivroId { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace OnlyBooksApi.Core.Models
         public double NotaAvaliacao { get; set; } = 0;
         public int? SomaTotalAvaliaçoes { get; set; } = 0;
         public int? TotalAvaliações { get; set; } = 0;
+        public string? ImageUrl { get; set; }
         [ForeignKey("GeneroLivro")]
         public int GeneroLivroId { get; set; }
         public GeneroLivro? Genero { get; set; }

@@ -9,6 +9,7 @@ namespace OnlyBooksApi.Core.Models.Dtos
         public string Titulo { get; set; }
         public string Autor { get; set; }
         public StatusLivro Status { get; set; }
+        public string? ImageUrl { get; set; }
         public double NotaAvaliacao { get; set; }
         public int? totalAvaliações { get; set; }
         public int? SomaTotalAvaliaçoes { get; set; }
