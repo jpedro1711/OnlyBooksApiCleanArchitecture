@@ -30,6 +30,16 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IEmprestimoService, EmprestimoService>();
 builder.Services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", builder =>
+    {
+        builder.AllowAnyOrigin()      
+               .AllowAnyMethod()      
+               .AllowAnyHeader();    
+    });
+});
+
 builder.Services.AddMassTransit(x =>
 {
     x.UsingAzureServiceBus((context, cfg) =>
@@ -41,6 +51,8 @@ builder.Services.AddMassTransit(x =>
 });
 
 var app = builder.Build();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseSwagger();
 app.UseSwaggerUI();
