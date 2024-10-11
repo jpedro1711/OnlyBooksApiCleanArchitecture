@@ -28,5 +28,21 @@ namespace OnlyBooksApi.Architecture.Tests
 
             Assert.True(result.IsSuccessful);
         }
+
+        [Fact]
+        public void Services_Should_Not_Depend_On_Concrete_Repositories()
+        {
+            var assembly = typeof(OnlyBooksApi.Application.Services.EmprestimoService).Assembly;
+
+            var result = Types
+                .InAssembly(assembly)
+                .That()
+                .ResideInNamespace("OnlyBooksApi.Application.Services")
+                .ShouldNot()
+                .HaveDependencyOn("OnlyBooksApi.Infrastructure.Repositories")
+                .GetResult();
+
+            Assert.True(result.IsSuccessful);
+        }
     }
 }
