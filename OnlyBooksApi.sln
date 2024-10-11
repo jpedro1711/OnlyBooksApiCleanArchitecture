@@ -7,15 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DD116859-826
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{77D53CCC-7395-4ACA-9B6E-2F72695D4C80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlyBooksApi.Infrastructure", "OnlyBooksApi.Infrastructure\OnlyBooksApi.Infrastructure.csproj", "{B2C70995-63C9-4FFD-8992-B023179011E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlyBooksApi.Infrastructure", "OnlyBooksApi.Infrastructure\OnlyBooksApi.Infrastructure.csproj", "{B2C70995-63C9-4FFD-8992-B023179011E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlyBooksApi.Core", "OnlyBooksApi.Core\OnlyBooksApi.Core.csproj", "{90443FF4-51D0-4556-8EC1-3AB105EFA7B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlyBooksApi.Core", "OnlyBooksApi.Core\OnlyBooksApi.Core.csproj", "{90443FF4-51D0-4556-8EC1-3AB105EFA7B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlyBooksApi.Application", "OnlyBooksApi.Application\OnlyBooksApi.Application.csproj", "{D641717D-143C-40E8-9C69-CD6A1B87F2A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlyBooksApi.Application", "OnlyBooksApi.Application\OnlyBooksApi.Application.csproj", "{D641717D-143C-40E8-9C69-CD6A1B87F2A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlyBooksApi.Web", "OnlyBooksApi.Web\OnlyBooksApi.Web.csproj", "{51BB594B-BFA2-4992-9B83-12AD462B40EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlyBooksApi.Web", "OnlyBooksApi.Web\OnlyBooksApi.Web.csproj", "{51BB594B-BFA2-4992-9B83-12AD462B40EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlyBooksApi.Architecture.Tests", "OnlyBooksApi.Architecture.Tests\OnlyBooksApi.Architecture.Tests.csproj", "{AE2ED7AD-8EE6-4D30-82AA-AD441B527D8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlyBooksApi.Architecture.Tests", "OnlyBooksApi.Architecture.Tests\OnlyBooksApi.Architecture.Tests.csproj", "{AE2ED7AD-8EE6-4D30-82AA-AD441B527D8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
