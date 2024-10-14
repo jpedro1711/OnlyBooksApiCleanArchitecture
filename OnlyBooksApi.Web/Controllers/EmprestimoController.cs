@@ -43,7 +43,7 @@ namespace OnlyBooksApi.Web.Controllers
             {
                 var result = await _service.CreateAsync(emprestimo);
 
-                return Ok(result.Msg);
+                return Ok(result);
             }
             catch (Exception ex)
             {

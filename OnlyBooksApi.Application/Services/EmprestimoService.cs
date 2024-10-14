@@ -31,26 +31,18 @@ namespace OnlyBooksApi.Application.Services
 
         public async Task<CreateEmprestimoAsyncViewModel> CreateAsync(CreateEmprestimoDto entity)
         {
-            try
+            var sendEndpoint = await _bus.GetSendEndpoint(new Uri(QueueNames.EmprestimosQueue));
+            await sendEndpoint.Send(entity);
+
+            var reserva = _reservaService.GetById(entity.ReservaId);
+
+            if (reserva == null)
             {
-                var sendEndpoint = await _bus.GetSendEndpoint(new Uri(QueueNames.EmprestimosQueue));
-                await sendEndpoint.Send(entity);
-
-                var reserva = _reservaService.GetById(entity.ReservaId);
-
-                if (reserva == null)
-                {
-                    throw new ReservaException($"Reserva não encontrada com ID {entity.ReservaId}");
-                }
-
-
-                return new CreateEmprestimoAsyncViewModel { Msg = "Sua requisição para criação de empréstimo está sendo processada", ReservaId = entity.ReservaId, DataDevolucao = entity.DataDevolucao};
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Falha ao publicar mensagem na fila");
+                throw new ReservaException($"Reserva não encontrada com ID {entity.ReservaId}");
             }
 
+
+            return new CreateEmprestimoAsyncViewModel { Msg = "Sua requisição para criação de empréstimo está sendo processada", ReservaId = entity.ReservaId, DataDevolucao = entity.DataDevolucao};
         }
 
         public List<EmprestimoViewModel> GetAll()
