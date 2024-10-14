@@ -27,7 +27,7 @@ namespace OnlyBooksApi.Infrastructure.Repositories
 
         public IEnumerable<Livro> GetAll()
         {
-            return _context.Livros.Include(l => l.Genero);
+            return _context.Livros.AsNoTracking().Include(l => l.Genero);
         }
 
         public Livro GetById(int id)

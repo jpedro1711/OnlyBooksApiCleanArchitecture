@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace OnlyBooksApi.Migrations
+namespace OnlyBooksApi.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Remove : Migration
+    public partial class UpdateLivroAndReserva : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,50 +13,41 @@ namespace OnlyBooksApi.Migrations
             migrationBuilder.DropTable(
                 name: "LivroReserva");
 
-            migrationBuilder.AddColumn<DateTime>(
-                name: "DataReserva",
-                table: "Reservas",
-                type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<int>(
-                name: "ReservaId",
-                table: "Livros",
-                type: "int",
-                nullable: true);
+            migrationBuilder.CreateTable(
+                name: "ReservaLivro",
+                columns: table => new
+                {
+                    ReservaId = table.Column<int>(type: "int", nullable: false),
+                    LivroId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReservaLivro", x => new { x.ReservaId, x.LivroId });
+                    table.ForeignKey(
+                        name: "FK_ReservaLivro_Livros_LivroId",
+                        column: x => x.LivroId,
+                        principalTable: "Livros",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReservaLivro_Reservas_ReservaId",
+                        column: x => x.ReservaId,
+                        principalTable: "Reservas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livros_ReservaId",
-                table: "Livros",
-                column: "ReservaId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Livros_Reservas_ReservaId",
-                table: "Livros",
-                column: "ReservaId",
-                principalTable: "Reservas",
-                principalColumn: "Id");
+                name: "IX_ReservaLivro_LivroId",
+                table: "ReservaLivro",
+                column: "LivroId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Livros_Reservas_ReservaId",
-                table: "Livros");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Livros_ReservaId",
-                table: "Livros");
-
-            migrationBuilder.DropColumn(
-                name: "DataReserva",
-                table: "Reservas");
-
-            migrationBuilder.DropColumn(
-                name: "ReservaId",
-                table: "Livros");
+            migrationBuilder.DropTable(
+                name: "ReservaLivro");
 
             migrationBuilder.CreateTable(
                 name: "LivroReserva",

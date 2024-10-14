@@ -27,21 +27,29 @@ namespace OnlyBooksApi.Infrastructure.Repositories
 
         public IEnumerable<Reserva> GetAll()
         {
-            return _context.Reservas.Include(r => r.Usuario);
+            return _context.Reservas
+                .Include(r => r.Usuario)
+                .Include(r => r.ReservaLivros)
+                .ThenInclude(rl => rl.Livro)
+                .ToList();
         }
 
         public IQueryable<Reserva> GetByuserEmail(string userEmail)
         {
             return _context.Reservas
-                    .Include(r => r.Livros)
-                    .ThenInclude(l => l.Genero)
                     .Include(r => r.Usuario)
+                    .Include(r => r.ReservaLivros)
+                    .ThenInclude(r => r.Livro)
                     .Where(r => r.Usuario.Email.ToLower().Equals(userEmail.ToLower()));
         }
 
         public Reserva GetById(int id)
         {
-            return _context.Reservas.Include(r => r.Usuario).Include(r => r.Livros).FirstOrDefault(x => x.Id == id);
+            return _context.Reservas
+                .Include(r => r.Usuario)
+                .Include(r => r.ReservaLivros)
+                .ThenInclude(rl => rl.Livro)
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public Reserva GetAsNoTracking(int id)
@@ -60,5 +68,9 @@ namespace OnlyBooksApi.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
     }
 }

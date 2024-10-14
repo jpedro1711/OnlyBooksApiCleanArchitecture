@@ -20,6 +20,6 @@ namespace OnlyBooksApi.Core.Models
         public int GeneroLivroId { get; set; }
         public GeneroLivro? Genero { get; set; }
         [JsonIgnore]
-        public List<Reserva> Reservas { get; set; } = new List<Reserva>();
+        public ICollection<ReservaLivro> ReservaLivros { get; set; }
     }
 }

@@ -9,11 +9,11 @@ using OnlyBooksApi.Infrastructure.Data;
 
 #nullable disable
 
-namespace OnlyBooksApi.Migrations
+namespace OnlyBooksApi.Infrastructure.Migrations
 {
     [DbContext(typeof(OnlyBooksDbContext))]
-    [Migration("20240828134950_avaliacoesLivro")]
-    partial class avaliacoesLivro
+    [Migration("20241014161142_UpdateLivroAndReserva")]
+    partial class UpdateLivroAndReserva
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace OnlyBooksApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Emprestimo", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Emprestimo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace OnlyBooksApi.Migrations
                     b.ToTable("Emprestimos");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.GeneroLivro", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.GeneroLivro", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace OnlyBooksApi.Migrations
                     b.ToTable("Generos");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Livro", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Livro", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,11 +81,11 @@ namespace OnlyBooksApi.Migrations
                     b.Property<int>("GeneroLivroId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("NotaAvaliacao")
                         .HasColumnType("float");
-
-                    b.Property<int?>("ReservaId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("SomaTotalAvaliaçoes")
                         .HasColumnType("int");
@@ -104,12 +104,10 @@ namespace OnlyBooksApi.Migrations
 
                     b.HasIndex("GeneroLivroId");
 
-                    b.HasIndex("ReservaId");
-
                     b.ToTable("Livros");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Reserva", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Reserva", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,7 +131,22 @@ namespace OnlyBooksApi.Migrations
                     b.ToTable("Reservas");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Usuario", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.ReservaLivro", b =>
+                {
+                    b.Property<int>("ReservaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LivroId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReservaId", "LivroId");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("ReservaLivro");
+                });
+
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,7 +156,7 @@ namespace OnlyBooksApi.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -158,12 +171,15 @@ namespace OnlyBooksApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Emprestimo", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Emprestimo", b =>
                 {
-                    b.HasOne("OnlyBooksApi.Models.Reserva", "Reserva")
+                    b.HasOne("OnlyBooksApi.Core.Models.Reserva", "Reserva")
                         .WithMany()
                         .HasForeignKey("ReservaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -172,24 +188,20 @@ namespace OnlyBooksApi.Migrations
                     b.Navigation("Reserva");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Livro", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Livro", b =>
                 {
-                    b.HasOne("OnlyBooksApi.Models.GeneroLivro", "Genero")
-                        .WithMany()
+                    b.HasOne("OnlyBooksApi.Core.Models.GeneroLivro", "Genero")
+                        .WithMany("Livros")
                         .HasForeignKey("GeneroLivroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlyBooksApi.Models.Reserva", null)
-                        .WithMany("Livros")
-                        .HasForeignKey("ReservaId");
-
                     b.Navigation("Genero");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Reserva", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Reserva", b =>
                 {
-                    b.HasOne("OnlyBooksApi.Models.Usuario", "Usuario")
+                    b.HasOne("OnlyBooksApi.Core.Models.Usuario", "Usuario")
                         .WithMany("Reservas")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -198,12 +210,41 @@ namespace OnlyBooksApi.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Reserva", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.ReservaLivro", b =>
+                {
+                    b.HasOne("OnlyBooksApi.Core.Models.Livro", "Livro")
+                        .WithMany("ReservaLivros")
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlyBooksApi.Core.Models.Reserva", "Reserva")
+                        .WithMany("ReservaLivros")
+                        .HasForeignKey("ReservaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+
+                    b.Navigation("Reserva");
+                });
+
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.GeneroLivro", b =>
                 {
                     b.Navigation("Livros");
                 });
 
-            modelBuilder.Entity("OnlyBooksApi.Models.Usuario", b =>
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Livro", b =>
+                {
+                    b.Navigation("ReservaLivros");
+                });
+
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Reserva", b =>
+                {
+                    b.Navigation("ReservaLivros");
+                });
+
+            modelBuilder.Entity("OnlyBooksApi.Core.Models.Usuario", b =>
                 {
                     b.Navigation("Reservas");
                 });

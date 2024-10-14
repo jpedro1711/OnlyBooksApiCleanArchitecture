@@ -10,7 +10,7 @@ namespace OnlyBooksApi.Core.Models.MappingProfiles
         public ReservaMapperProfile()
         {
             CreateMap<Reserva, ReservaViewModel>()
-                .ForMember(dest => dest.Livros, opt => opt.MapFrom(src => src.Livros))
+                .ForMember(dest => dest.Livros, opt => opt.MapFrom(src => src.ReservaLivros.Select(rl => rl.Livro)))
                 .ReverseMap();
             CreateMap<ReservaViewModel, CreateReservaDto>().ReverseMap();
             CreateMap<CreateReservaDto, ReservaViewModel>().ReverseMap();

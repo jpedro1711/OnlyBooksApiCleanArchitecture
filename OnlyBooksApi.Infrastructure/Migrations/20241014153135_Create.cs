@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace OnlyBooksApi.Migrations
+namespace OnlyBooksApi.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,7 @@ namespace OnlyBooksApi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TipoUsuario = table.Column<int>(type: "int", nullable: false)
                 },
@@ -50,14 +50,17 @@ namespace OnlyBooksApi.Migrations
                     Autor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     NotaAvaliacao = table.Column<double>(type: "float", nullable: false),
-                    GeneroId = table.Column<int>(type: "int", nullable: false)
+                    SomaTotalAvaliaçoes = table.Column<int>(type: "int", nullable: true),
+                    TotalAvaliações = table.Column<int>(type: "int", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GeneroLivroId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Livros", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Livros_Generos_GeneroId",
-                        column: x => x.GeneroId,
+                        name: "FK_Livros_Generos_GeneroLivroId",
+                        column: x => x.GeneroLivroId,
                         principalTable: "Generos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -69,8 +72,9 @@ namespace OnlyBooksApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    StatusReserva = table.Column<int>(type: "int", nullable: false)
+                    StatusReserva = table.Column<int>(type: "int", nullable: false),
+                    DataReserva = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -139,14 +143,20 @@ namespace OnlyBooksApi.Migrations
                 column: "ReservasId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livros_GeneroId",
+                name: "IX_Livros_GeneroLivroId",
                 table: "Livros",
-                column: "GeneroId");
+                column: "GeneroLivroId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservas_UsuarioId",
                 table: "Reservas",
                 column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_Email",
+                table: "Usuarios",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />

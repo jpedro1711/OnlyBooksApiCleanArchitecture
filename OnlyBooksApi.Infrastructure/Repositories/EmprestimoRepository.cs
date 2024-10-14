@@ -27,7 +27,7 @@ namespace OnlyBooksApi.Infrastructure.Repositories
 
         public IEnumerable<Emprestimo> GetAll()
         {
-            return _context.Emprestimos.Include(e => e.Reserva).ThenInclude(r => r.Livros);
+            return _context.Emprestimos.Include(e => e.Reserva);
         }
 
         public Emprestimo GetById(int id)

@@ -13,6 +13,6 @@ namespace OnlyBooksApi.Core.Models
         [ForeignKey("Usuario")]
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
-        public List<Livro> Livros { get; set; } = new List<Livro>();
+        public ICollection<ReservaLivro> ReservaLivros { get; set; }
     }
 }

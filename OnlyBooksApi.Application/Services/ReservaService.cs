@@ -25,7 +25,6 @@ namespace OnlyBooksApi.Application.Services
 
         public ReservaViewModel Create(CreateReservaDto entity)
         {
-            // fix
             var usuarioDto = _usuarioService.GetById(entity.UsuarioId);
 
             if (usuarioDto == null)
@@ -34,23 +33,20 @@ namespace OnlyBooksApi.Application.Services
             }
 
             Reserva reserva = new Reserva { UsuarioId = usuarioDto.Id };
-            _repository.Add(reserva);
 
+            var livros = _livroService.GetAll()
+                .Where(livro => entity.LivrosIds.Contains(livro.Id))
+                .ToList();
 
-            foreach (var livroId in entity.LivrosIds)
+            var reservasLivros = livros.Select(livro => new ReservaLivro
             {
-                try
-                {
-                    Livro livro = _mapper.Map<Livro>(_livroService.GetById(livroId));
-                    livro.Id = livroId;
+                Reserva = reserva,
+                LivroId = livro.Id
+            }).ToList();
 
-                    reserva.Livros.Add(livro);
-                }
-                catch (LivroException ex)
-                {
-                    continue;
-                }
-            }
+            reserva.ReservaLivros = reservasLivros;
+
+            _repository.Add(reserva);
 
             return _mapper.Map<ReservaViewModel>(reserva);
         }

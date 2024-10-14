@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
+using OnlyBooksApi.Core.Models;
 using OnlyBooksApi.Core.Models.Dtos;
 using OnlyBooksApi.Core.Models.Enums;
 using OnlyBooksApi.Core.Models.ViewModels;
@@ -69,7 +70,7 @@ namespace OnlyBooksApi.Web.Controllers
 
 
         [HttpPut("{id}")]
-        public IActionResult Atualizar(int id, [FromBody] LivroDto livro)
+        public IActionResult Atualizar(int id, [FromBody] Livro livro)
         {
             try
             {

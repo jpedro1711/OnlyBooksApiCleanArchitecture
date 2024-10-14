@@ -68,7 +68,7 @@ namespace OnlyBooksApi.Application.Services
             throw new LivroException("Livro não encontrado");
         }
 
-        public LivroViewModel Update(int id, LivroDto dto)
+        public LivroViewModel Update(int id, Livro dto)
         {
             Livro livroExistente = _repository.GetById(id);
 

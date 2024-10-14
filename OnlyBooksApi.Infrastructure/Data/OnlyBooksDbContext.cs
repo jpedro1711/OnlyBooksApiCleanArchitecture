@@ -22,6 +22,19 @@ namespace OnlyBooksApi.Infrastructure.Data
                     .HasIndex(u => u.Email)
                     .IsUnique(true);
 
+            modelBuilder.Entity<ReservaLivro>()
+                    .HasKey(bc => new { bc.ReservaId, bc.LivroId });
+
+            modelBuilder.Entity<ReservaLivro>()
+                    .HasOne(b => b.Livro)
+                    .WithMany(bc => bc.ReservaLivros)
+                    .HasForeignKey(bc => bc.ReservaId);
+
+            modelBuilder.Entity<ReservaLivro>()
+                    .HasOne(b => b.Livro)
+                    .WithMany(bc => bc.ReservaLivros)
+                    .HasForeignKey(bc => bc.LivroId);
+
             base.OnModelCreating(modelBuilder);
         }
     }

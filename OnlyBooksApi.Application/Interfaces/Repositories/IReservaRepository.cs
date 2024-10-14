@@ -11,5 +11,6 @@ namespace OnlyBooksApi.Application.Interfaces.Repositories
         void Update(Reserva reserva);
         void Delete(Reserva reserva);
         IQueryable<Reserva> GetByuserEmail(string userEmail);
+        void Save();
     }
 }
