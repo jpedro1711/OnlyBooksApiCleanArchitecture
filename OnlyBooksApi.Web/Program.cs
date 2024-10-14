@@ -52,6 +52,8 @@ builder.Services.AddMassTransit(x =>
 
 var app = builder.Build();
 
+app.UseMiddleware<ErrorMiddleware>();
+
 app.UseCors("AllowAllOrigins");
 
 app.UseSwagger();

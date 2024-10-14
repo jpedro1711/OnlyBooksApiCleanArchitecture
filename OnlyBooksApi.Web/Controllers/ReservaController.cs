@@ -11,7 +11,7 @@ namespace OnlyBooksApi.Web.Controllers
     [Route("[controller]")]
     public class ReservaController : ControllerBase
     {
-        private IReservaService _service;
+        private readonly IReservaService _service;
 
         public ReservaController(IReservaService service)
         {
@@ -27,15 +27,8 @@ namespace OnlyBooksApi.Web.Controllers
         [HttpGet("{id}")]
         public ActionResult BuscarReserva(int id)
         {
-            try
-            {
-                var reserva = _service.GetById(id);
-                return Ok(reserva);
-            }
-            catch (ReservaException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var reserva = _service.GetById(id);
+            return Ok(reserva);
         }
 
         [HttpGet("usuario")]
@@ -47,34 +40,15 @@ namespace OnlyBooksApi.Web.Controllers
         [HttpPost]
         public ActionResult CriarReserva([FromBody] CreateReservaDto reserva)
         {
-            try
-            {
-                ReservaViewModel created = _service.Create(reserva);
-
-                return CreatedAtAction(nameof(BuscarReserva), new { id = created.Id }, created);
-            }
-            catch (UsuarioException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            ReservaViewModel created = _service.Create(reserva);
+            return CreatedAtAction(nameof(BuscarReserva), new { id = created.Id }, created);
         }
-
 
         [HttpPatch("atualizarStatus")]
         public IActionResult AtualizarStatus([FromQuery] int id, [FromQuery] StatusReserva novoStatus)
         {
-            try
-            {
-                ReservaViewModel reservaDto = _service.UpdateStatus(id, novoStatus);
-                return Ok(reservaDto);
-
-            }
-            catch (ReservaException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            ReservaViewModel reservaDto = _service.UpdateStatus(id, novoStatus);
+            return Ok(reservaDto);
         }
     }
 }

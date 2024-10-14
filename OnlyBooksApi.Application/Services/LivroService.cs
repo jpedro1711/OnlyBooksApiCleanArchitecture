@@ -44,7 +44,7 @@ namespace OnlyBooksApi.Application.Services
                 return;
             }
 
-            throw new LivroException("Livro não encontrado");
+            throw new NotFoundException("Livro não encontrado");
         }
 
         public List<LivroViewModel> GetAll()
@@ -65,7 +65,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<LivroViewModel>(livro);
             }
 
-            throw new LivroException("Livro não encontrado");
+            throw new NotFoundException("Livro não encontrado");
         }
 
         public LivroViewModel Update(int id, Livro dto)
@@ -81,7 +81,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<LivroViewModel>(livroExistente);
             }
 
-            throw new LivroException("Livro não encontrado");
+            throw new NotFoundException("Livro não encontrado");
         }
 
         public LivroViewModel AtualizarStatus(int id, StatusLivro novoStatus)
@@ -96,7 +96,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<LivroViewModel>(livroExistente);
             }
 
-            throw new LivroException("Livro não encontrado");
+            throw new NotFoundException("Livro não encontrado");
         }
 
         public LivroViewModel AvaliarLivro(int id, int novaNota)
@@ -123,7 +123,7 @@ namespace OnlyBooksApi.Application.Services
 
             }
 
-            throw new LivroException("Livro não encontrado");
+            throw new NotFoundException("Livro não encontrado");
         }
     }
 }

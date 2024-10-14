@@ -26,54 +26,29 @@ namespace OnlyBooksApi.Web.Controllers
         [HttpGet("{id}")]
         public ActionResult BuscarUsuario(int id)
         {
-            try
-            {
-                var usuario = _service.GetById(id);
-                return Ok(usuario);
-            }
-            catch (UsuarioException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var usuario = _service.GetById(id);
+            return Ok(usuario);
         }
 
         [HttpPost]
         public ActionResult CriarUsuario([FromBody] CreateOrUpdateUsuarioDto usuario)
         {
             UsuarioViewModel created = _service.Create(usuario);
-
             return CreatedAtAction(nameof(BuscarUsuario), new { id = created.Id }, created);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Remover(int id)
         {
-            try
-            {
-                _service.Delete(id);
-                return NoContent();
-            }
-            catch (UsuarioException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _service.Delete(id);
+            return NoContent();
         }
-
 
         [HttpPut("{id}")]
         public IActionResult Atualizar(int id, [FromBody] CreateOrUpdateUsuarioDto usuario)
         {
-            try
-            {
-                UsuarioViewModel usuarioDto = _service.Update(id, usuario);
-
-                return Ok(usuarioDto);
-            }
-            catch (ReservaException ex)
-            {
-                return NotFound(ex.Message);
-            }
-
+            UsuarioViewModel usuarioDto = _service.Update(id, usuario);
+            return Ok(usuarioDto);
         }
     }
 }

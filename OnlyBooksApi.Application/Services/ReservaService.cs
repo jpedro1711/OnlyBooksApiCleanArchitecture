@@ -29,7 +29,7 @@ namespace OnlyBooksApi.Application.Services
 
             if (usuarioDto == null)
             {
-                throw new UsuarioException("Usuário inválido");
+                throw new NotFoundException("Usuário não encontrado");
             }
 
             Reserva reserva = new Reserva { UsuarioId = usuarioDto.Id };
@@ -76,7 +76,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<ReservaViewModel>(reserva);
             }
 
-            throw new ReservaException("Reserva não encontrada");
+            throw new NotFoundException("Reserva não encontrada");
         }
 
         public ReservaViewModel UpdateStatus(int id, StatusReserva novoStatus)
@@ -90,7 +90,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<ReservaViewModel>(reservaExistente);
             }
 
-            throw new ReservaException("Reserva não encontrada");
+            throw new NotFoundException("Reserva não encontrada");
         }
     }
 }

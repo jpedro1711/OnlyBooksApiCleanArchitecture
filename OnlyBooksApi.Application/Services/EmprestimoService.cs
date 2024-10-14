@@ -36,7 +36,7 @@ namespace OnlyBooksApi.Application.Services
 
             if (reserva == null)
             {
-                throw new ReservaException($"Reserva não encontrada com ID {entity.ReservaId}");
+                throw new NotFoundException($"Reserva não encontrada com ID {entity.ReservaId}");
             }
 
             var sendEndpoint = await _bus.GetSendEndpoint(new Uri(QueueNames.EmprestimosQueue));
@@ -65,7 +65,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<EmprestimoViewModel>(emprestimo);
             }
 
-            throw new EmprestimoException("Empréstimo não encontrado");
+            throw new NotFoundException("Empréstimo não encontrado");
         }
 
         public EmprestimoViewModel UpdateStatus(int id, StatusEmprestimo novoStatus)
@@ -79,7 +79,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<EmprestimoViewModel>(emprestimoExistente);
             }
 
-            throw new EmprestimoException("Empréstimo não encontrado");
+            throw new NotFoundException("Empréstimo não encontrado");
         }
     }
 }

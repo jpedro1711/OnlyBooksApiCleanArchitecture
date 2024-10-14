@@ -37,7 +37,7 @@ namespace OnlyBooksApi.Application.Services
                 return;
             }
 
-            throw new GeneroLivroException("Genêro livro não encontrado");
+            throw new NotFoundException("Genêro livro não encontrado");
         }
 
         public List<GeneroLivroViewModel> GetAll()
@@ -58,7 +58,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<GeneroLivroViewModel>(genero);
             }
 
-            throw new GeneroLivroException("Genêro livro não encontrado");
+            throw new NotFoundException("Genêro livro não encontrado");
         }
 
         public GeneroLivroViewModel Update(int id, GeneroLivroDto dto)
@@ -74,7 +74,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<GeneroLivroViewModel>(generoExistente);
             }
 
-            throw new GeneroLivroException("Genêro livro não encontrado");
+            throw new NotFoundException("Genêro livro não encontrado");
         }
 
     }

@@ -12,7 +12,7 @@ namespace OnlyBooksApi.Web.Controllers
     [Route("[controller]")]
     public class LivroController : ControllerBase
     {
-        private ILivroService _service;
+        private readonly ILivroService _service;
 
         public LivroController(ILivroService service)
         {
@@ -28,92 +28,43 @@ namespace OnlyBooksApi.Web.Controllers
         [HttpGet("{id}")]
         public ActionResult BuscarLivro(int id)
         {
-            try
-            {
-                var livro = _service.GetById(id);
-                return Ok(livro);
-            }
-            catch (LivroException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var livro = _service.GetById(id);
+            return Ok(livro);
         }
 
         [HttpPost]
         public ActionResult CriarLivro([FromBody] CreateLivroDto livro)
         {
-            try
-            {
-                LivroViewModel created = _service.Create(livro);
-
-                return CreatedAtAction(nameof(BuscarLivro), new { id = created.Id }, created);
-            }
-            catch (GeneroLivroException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            LivroViewModel created = _service.Create(livro);
+            return CreatedAtAction(nameof(BuscarLivro), new { id = created.Id }, created);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Remover(int id)
         {
-            try
-            {
-                _service.Delete(id);
-                return NoContent();
-            }
-            catch (LivroException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _service.Delete(id);
+            return NoContent();
         }
-
 
         [HttpPut("{id}")]
         public IActionResult Atualizar(int id, [FromBody] Livro livro)
         {
-            try
-            {
-                LivroViewModel generoLivroDto = _service.Update(id, livro);
-
-                return Ok(generoLivroDto);
-            }
-            catch (LivroException ex)
-            {
-                return NotFound(ex.Message);
-            }
-
+            LivroViewModel generoLivroDto = _service.Update(id, livro);
+            return Ok(generoLivroDto);
         }
 
         [HttpPatch("atualizarStatus")]
         public IActionResult AtualizarStatus([FromQuery] int id, [FromQuery] StatusLivro novoStatus)
         {
-            try
-            {
-                LivroViewModel dto = _service.AtualizarStatus(id, novoStatus);
-
-                return Ok(dto);
-            }
-            catch (LivroException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            LivroViewModel dto = _service.AtualizarStatus(id, novoStatus);
+            return Ok(dto);
         }
 
         [HttpPatch("avaliar")]
         public IActionResult Avaliar([FromQuery] int id, [FromQuery] int novaNota)
         {
-            try
-            {
-                LivroViewModel dto = _service.AvaliarLivro(id, novaNota);
-
-                return Ok(dto);
-            }
-            catch (LivroException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            LivroViewModel dto = _service.AvaliarLivro(id, novaNota);
+            return Ok(dto);
         }
-
     }
 }

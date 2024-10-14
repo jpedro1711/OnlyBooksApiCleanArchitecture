@@ -38,7 +38,7 @@ namespace OnlyBooksApi.Application.Services
                 return;
             }
 
-            throw new UsuarioException("Usuário não encontrado");
+            throw new NotFoundException("Usuário não encontrado");
         }
 
         public List<UsuarioViewModel> GetAll()
@@ -59,7 +59,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<UsuarioViewModel>(usuario);
             }
 
-            throw new UsuarioException("Usuário não encontrado");
+            throw new NotFoundException("Usuário não encontrado");
         }
 
         public UsuarioViewModel Update(int id, CreateOrUpdateUsuarioDto dto)
@@ -75,7 +75,7 @@ namespace OnlyBooksApi.Application.Services
                 return _mapper.Map<UsuarioViewModel>(usuarioExistente);
             }
 
-            throw new UsuarioException("Usuário não encontrado");
+            throw new NotFoundException("Usuário não encontrado");
         }
     }
 }

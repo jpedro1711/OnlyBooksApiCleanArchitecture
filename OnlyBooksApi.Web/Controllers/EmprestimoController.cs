@@ -26,29 +26,18 @@ namespace OnlyBooksApi.Web.Controllers
         [HttpGet("{id}")]
         public ActionResult BuscarEmprestimo(int id)
         {
-            try
-            {
-                var emprestimo = _service.GetById(id);
-                return Ok(emprestimo);
-            }
-            catch (EmprestimoException ex)
-            {
-                return NotFound(ex.Message);
-            }
+
+            var emprestimo = _service.GetById(id);
+            return Ok(emprestimo);
         }
+
         [HttpPost]
         public async Task<ActionResult> CriarEmprestimo([FromBody] CreateEmprestimoDto emprestimo)
         {
-            try
-            {
-                var result = await _service.CreateAsync(emprestimo);
 
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Error = "Ocorreu um erro.", Detalhes = ex.Message });
-            }
+            var result = await _service.CreateAsync(emprestimo);
+
+            return Ok(result);
         }
 
 
@@ -57,17 +46,8 @@ namespace OnlyBooksApi.Web.Controllers
         [HttpPatch("atualizarStatus")]
         public IActionResult AtualizarStatus([FromQuery] int id, [FromQuery] StatusEmprestimo novoStatus)
         {
-            try
-            {
-                EmprestimoViewModel emprestimo = _service.UpdateStatus(id, novoStatus);
-                return Ok(emprestimo);
-
-            }
-            catch (ReservaException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            EmprestimoViewModel emprestimo = _service.UpdateStatus(id, novoStatus);
+            return Ok(emprestimo);
         }
     }
 }
