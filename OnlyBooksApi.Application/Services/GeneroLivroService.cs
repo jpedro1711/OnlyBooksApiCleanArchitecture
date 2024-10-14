@@ -4,6 +4,7 @@ using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models;
 using OnlyBooksApi.Core.Models.Dtos;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Application.Services
 {
@@ -17,13 +18,13 @@ namespace OnlyBooksApi.Application.Services
             _mapper = mapper;
         }
 
-        public GeneroLivroResponseDto Create(GeneroLivroDto entity)
+        public GeneroLivroViewModel Create(GeneroLivroDto entity)
         {
             GeneroLivro genero = _mapper.Map<GeneroLivro>(entity);
 
             _repository.Add(genero);
 
-            return _mapper.Map<GeneroLivroResponseDto>(genero);
+            return _mapper.Map<GeneroLivroViewModel>(genero);
         }
 
         public void Delete(int id)
@@ -39,28 +40,28 @@ namespace OnlyBooksApi.Application.Services
             throw new GeneroLivroException("Genêro livro não encontrado");
         }
 
-        public List<GeneroLivroResponseDto> GetAll()
+        public List<GeneroLivroViewModel> GetAll()
         {
             IEnumerable<GeneroLivro> generos = _repository.GetAll();
 
-            List<GeneroLivroResponseDto> generoDtos = _mapper.Map<List<GeneroLivroResponseDto>>(generos);
+            List<GeneroLivroViewModel> generoDtos = _mapper.Map<List<GeneroLivroViewModel>>(generos);
 
             return generoDtos;
         }
 
-        public GeneroLivroResponseDto GetById(int id)
+        public GeneroLivroViewModel GetById(int id)
         {
             GeneroLivro genero = _repository.GetById(id);
 
             if (genero != null)
             {
-                return _mapper.Map<GeneroLivroResponseDto>(genero);
+                return _mapper.Map<GeneroLivroViewModel>(genero);
             }
 
             throw new GeneroLivroException("Genêro livro não encontrado");
         }
 
-        public GeneroLivroResponseDto Update(int id, GeneroLivroDto dto)
+        public GeneroLivroViewModel Update(int id, GeneroLivroDto dto)
         {
             GeneroLivro generoExistente = _repository.GetById(id);
 
@@ -70,7 +71,7 @@ namespace OnlyBooksApi.Application.Services
 
                 _repository.Update(generoExistente);
 
-                return _mapper.Map<GeneroLivroResponseDto>(generoExistente);
+                return _mapper.Map<GeneroLivroViewModel>(generoExistente);
             }
 
             throw new GeneroLivroException("Genêro livro não encontrado");

@@ -2,6 +2,7 @@
 using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models.Dtos;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Web.Controllers
 {
@@ -17,7 +18,7 @@ namespace OnlyBooksApi.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<UsuarioResponseDto>> Listar()
+        public ActionResult<List<UsuarioViewModel>> Listar()
         {
             return Ok(_service.GetAll());
         }
@@ -39,7 +40,7 @@ namespace OnlyBooksApi.Web.Controllers
         [HttpPost]
         public ActionResult CriarUsuario([FromBody] CreateOrUpdateUsuarioDto usuario)
         {
-            UsuarioResponseDto created = _service.Create(usuario);
+            UsuarioViewModel created = _service.Create(usuario);
 
             return CreatedAtAction(nameof(BuscarUsuario), new { id = created.Id }, created);
         }
@@ -64,7 +65,7 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                UsuarioResponseDto usuarioDto = _service.Update(id, usuario);
+                UsuarioViewModel usuarioDto = _service.Update(id, usuario);
 
                 return Ok(usuarioDto);
             }

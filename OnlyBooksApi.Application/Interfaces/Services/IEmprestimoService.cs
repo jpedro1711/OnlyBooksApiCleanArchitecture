@@ -1,14 +1,14 @@
 ﻿using OnlyBooksApi.Core.Models.Dtos;
 using OnlyBooksApi.Core.Models.Enums;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Application.Interfaces.Services
 {
     public interface IEmprestimoService
     {
-        List<EmprestimoDto> GetAll();
-        List<LivroResponseDto> GetLivrosEmprestados();
-        Task<BaseMessageResponse> CreateAsync(CreateEmprestimoDto entity);
-        EmprestimoDto GetById(int id);
-        EmprestimoDto UpdateStatus(int id, StatusEmprestimo novoStatus);
+        List<EmprestimoViewModel> GetAll();
+        Task<CreateEmprestimoAsyncViewModel> CreateAsync(CreateEmprestimoDto entity);
+        EmprestimoViewModel GetById(int id);
+        EmprestimoViewModel UpdateStatus(int id, StatusEmprestimo novoStatus);
     }
 }

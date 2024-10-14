@@ -3,6 +3,7 @@ using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models.Dtos;
 using OnlyBooksApi.Core.Models.Enums;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Web.Controllers
 {
@@ -18,7 +19,7 @@ namespace OnlyBooksApi.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<ReservaDto>> Listar()
+        public ActionResult<List<ReservaViewModel>> Listar()
         {
             return Ok(_service.GetAll());
         }
@@ -48,7 +49,7 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                ReservaDto created = _service.Create(reserva);
+                ReservaViewModel created = _service.Create(reserva);
 
                 return CreatedAtAction(nameof(BuscarReserva), new { id = created.Id }, created);
             }
@@ -65,7 +66,7 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                ReservaDto reservaDto = _service.UpdateStatus(id, novoStatus);
+                ReservaViewModel reservaDto = _service.UpdateStatus(id, novoStatus);
                 return Ok(reservaDto);
 
             }

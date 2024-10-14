@@ -1,9 +1,8 @@
-﻿using OnlyBooksApi.Core.Models;
-using OnlyBooksApi.Core.Models.Enums;
+﻿using OnlyBooksApi.Core.Models.Enums;
 
-namespace OnlyBooksApi.Core.Models.Dtos
+namespace OnlyBooksApi.Core.Models.ViewModels
 {
-    public class ReservaDto
+    public class ReservaViewModel
     {
         public int? Id { get; set; }
         public StatusReserva StatusReserva { get; set; }

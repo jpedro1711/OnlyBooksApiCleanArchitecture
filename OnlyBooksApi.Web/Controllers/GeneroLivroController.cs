@@ -2,6 +2,7 @@
 using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models.Dtos;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Web.Controllers
 {
@@ -38,9 +39,9 @@ namespace OnlyBooksApi.Web.Controllers
         [HttpPost]
         public ActionResult CriarGeneroLivro([FromBody] GeneroLivroDto generoLivro)
         {
-            GeneroLivroResponseDto created = _service.Create(generoLivro);
+            GeneroLivroViewModel created = _service.Create(generoLivro);
 
-            return CreatedAtAction(nameof(BuscarGenero), new { created.id }, created);
+            return CreatedAtAction(nameof(BuscarGenero), new { created.Id }, created);
         }
 
         [HttpDelete]
@@ -63,7 +64,7 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                GeneroLivroResponseDto generoLivroDto = _service.Update(id, genero);
+                GeneroLivroViewModel generoLivroDto = _service.Update(id, genero);
 
                 return Ok(generoLivroDto);
             }

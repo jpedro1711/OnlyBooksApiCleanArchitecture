@@ -5,6 +5,7 @@ using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models;
 using OnlyBooksApi.Core.Models.Dtos;
 using OnlyBooksApi.Core.Models.Enums;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Application.Services
 {
@@ -22,7 +23,7 @@ namespace OnlyBooksApi.Application.Services
             _usuarioService = usuarioService;
         }
 
-        public ReservaDto Create(CreateReservaDto entity)
+        public ReservaViewModel Create(CreateReservaDto entity)
         {
             // fix
             var usuarioDto = _usuarioService.GetById(entity.UsuarioId);
@@ -51,38 +52,38 @@ namespace OnlyBooksApi.Application.Services
                 }
             }
 
-            return _mapper.Map<ReservaDto>(reserva);
+            return _mapper.Map<ReservaViewModel>(reserva);
         }
 
-        public List<ReservaDto> GetAll()
+        public List<ReservaViewModel> GetAll()
         {
             IEnumerable<Reserva> reservas = _repository.GetAll();
 
-            List<ReservaDto> reservaDtos = _mapper.Map<List<ReservaDto>>(reservas);
+            List<ReservaViewModel> reservaDtos = _mapper.Map<List<ReservaViewModel>>(reservas);
 
             return reservaDtos;
         }
 
-        public List<ReservaDto> GetByUserEmail(string email)
+        public List<ReservaViewModel> GetByUserEmail(string email)
         {
             IQueryable<Reserva> reservas = _repository.GetByuserEmail(email);
 
-            return _mapper.Map<List<ReservaDto>>(reservas);
+            return _mapper.Map<List<ReservaViewModel>>(reservas);
         }
 
-        public ReservaDto GetById(int id)
+        public ReservaViewModel GetById(int id)
         {
             Reserva reserva = _repository.GetById(id);
 
             if (reserva != null)
             {
-                return _mapper.Map<ReservaDto>(reserva);
+                return _mapper.Map<ReservaViewModel>(reserva);
             }
 
             throw new ReservaException("Reserva não encontrada");
         }
 
-        public ReservaDto UpdateStatus(int id, StatusReserva novoStatus)
+        public ReservaViewModel UpdateStatus(int id, StatusReserva novoStatus)
         {
             var reservaExistente = _repository.GetById(id);
 
@@ -90,7 +91,7 @@ namespace OnlyBooksApi.Application.Services
             {
                 reservaExistente.StatusReserva = novoStatus;
                 _repository.Update(reservaExistente);
-                return _mapper.Map<ReservaDto>(reservaExistente);
+                return _mapper.Map<ReservaViewModel>(reservaExistente);
             }
 
             throw new ReservaException("Reserva não encontrada");

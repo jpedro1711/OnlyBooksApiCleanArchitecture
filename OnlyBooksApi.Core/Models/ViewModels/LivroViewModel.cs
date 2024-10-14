@@ -1,9 +1,8 @@
 ﻿using OnlyBooksApi.Core.Models.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OnlyBooksApi.Core.Models.Dtos
+namespace OnlyBooksApi.Core.Models.ViewModels
 {
-    public class LivroResponseDto
+    public class LivroViewModel
     {
         public int Id { get; set; }
         public string Titulo { get; set; }

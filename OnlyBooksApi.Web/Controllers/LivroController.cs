@@ -3,6 +3,7 @@ using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models.Dtos;
 using OnlyBooksApi.Core.Models.Enums;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Web.Controllers
 {
@@ -18,7 +19,7 @@ namespace OnlyBooksApi.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<LivroResponseDto>> Listar()
+        public ActionResult<List<LivroViewModel>> Listar()
         {
             return Ok(_service.GetAll());
         }
@@ -42,7 +43,7 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                LivroResponseDto created = _service.Create(livro);
+                LivroViewModel created = _service.Create(livro);
 
                 return CreatedAtAction(nameof(BuscarLivro), new { id = created.Id }, created);
             }
@@ -72,7 +73,7 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                LivroResponseDto generoLivroDto = _service.Update(id, livro);
+                LivroViewModel generoLivroDto = _service.Update(id, livro);
 
                 return Ok(generoLivroDto);
             }
@@ -88,7 +89,7 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                LivroResponseDto dto = _service.AtualizarStatus(id, novoStatus);
+                LivroViewModel dto = _service.AtualizarStatus(id, novoStatus);
 
                 return Ok(dto);
             }
@@ -103,7 +104,7 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                LivroResponseDto dto = _service.AvaliarLivro(id, novaNota);
+                LivroViewModel dto = _service.AvaliarLivro(id, novaNota);
 
                 return Ok(dto);
             }

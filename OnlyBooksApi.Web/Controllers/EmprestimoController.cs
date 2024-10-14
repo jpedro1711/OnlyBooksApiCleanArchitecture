@@ -3,6 +3,7 @@ using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models.Dtos;
 using OnlyBooksApi.Core.Models.Enums;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Web.Controllers
 {
@@ -20,12 +21,6 @@ namespace OnlyBooksApi.Web.Controllers
         public ActionResult<List<EmprestimoDto>> Listar()
         {
             return Ok(_service.GetAll());
-        }
-
-        [HttpGet("livrosEmprestados")]
-        public ActionResult<List<LivroDto>> GetLivrosEmprestados()
-        {
-            return Ok(_service.GetLivrosEmprestados());
         }
 
         [HttpGet("{id}")]
@@ -48,7 +43,7 @@ namespace OnlyBooksApi.Web.Controllers
             {
                 var result = await _service.CreateAsync(emprestimo);
 
-                return Ok(result.message);
+                return Ok(result.Msg);
             }
             catch (Exception ex)
             {
@@ -64,8 +59,8 @@ namespace OnlyBooksApi.Web.Controllers
         {
             try
             {
-                EmprestimoDto emprestimoDto = _service.UpdateStatus(id, novoStatus);
-                return Ok(emprestimoDto);
+                EmprestimoViewModel emprestimo = _service.UpdateStatus(id, novoStatus);
+                return Ok(emprestimo);
 
             }
             catch (ReservaException ex)

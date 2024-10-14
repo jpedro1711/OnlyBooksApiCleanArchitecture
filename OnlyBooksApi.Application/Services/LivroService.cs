@@ -5,6 +5,7 @@ using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models;
 using OnlyBooksApi.Core.Models.Dtos;
 using OnlyBooksApi.Core.Models.Enums;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Application.Services
 {
@@ -20,17 +21,17 @@ namespace OnlyBooksApi.Application.Services
             _generoLivroService = generoLivroService;
         }
 
-        public LivroResponseDto Create(CreateLivroDto entity)
+        public LivroViewModel Create(CreateLivroDto entity)
         {
             Livro livro = _mapper.Map<Livro>(entity);
 
-            GeneroLivroResponseDto genero = _generoLivroService.GetById(entity.GeneroLivroId);
+            GeneroLivroViewModel genero = _generoLivroService.GetById(entity.GeneroLivroId);
 
-            livro.GeneroLivroId = genero.id;
+            livro.GeneroLivroId = genero.Id;
 
             _repository.Add(livro);
 
-            return _mapper.Map<LivroResponseDto>(livro);
+            return _mapper.Map<LivroViewModel>(livro);
         }
 
         public void Delete(int id)
@@ -46,28 +47,28 @@ namespace OnlyBooksApi.Application.Services
             throw new LivroException("Livro não encontrado");
         }
 
-        public List<LivroResponseDto> GetAll()
+        public List<LivroViewModel> GetAll()
         {
             IEnumerable<Livro> livros = _repository.GetAll();
 
-            List<LivroResponseDto> livrosDtos = _mapper.Map<List<LivroResponseDto>>(livros);
+            List<LivroViewModel> livrosDtos = _mapper.Map<List<LivroViewModel>>(livros);
 
             return livrosDtos;
         }
 
-        public LivroResponseDto GetById(int id)
+        public LivroViewModel GetById(int id)
         {
             Livro livro = _repository.GetById(id);
 
             if (livro != null)
             {
-                return _mapper.Map<LivroResponseDto>(livro);
+                return _mapper.Map<LivroViewModel>(livro);
             }
 
             throw new LivroException("Livro não encontrado");
         }
 
-        public LivroResponseDto Update(int id, LivroDto dto)
+        public LivroViewModel Update(int id, LivroDto dto)
         {
             Livro livroExistente = _repository.GetById(id);
 
@@ -77,13 +78,13 @@ namespace OnlyBooksApi.Application.Services
 
                 _repository.Update(livroExistente);
 
-                return _mapper.Map<LivroResponseDto>(livroExistente);
+                return _mapper.Map<LivroViewModel>(livroExistente);
             }
 
             throw new LivroException("Livro não encontrado");
         }
 
-        public LivroResponseDto AtualizarStatus(int id, StatusLivro novoStatus)
+        public LivroViewModel AtualizarStatus(int id, StatusLivro novoStatus)
         {
             Livro livroExistente = _repository.GetById(id);
 
@@ -92,13 +93,13 @@ namespace OnlyBooksApi.Application.Services
                 livroExistente.Status = novoStatus;
                 _repository.Update(livroExistente);
 
-                return _mapper.Map<LivroResponseDto>(livroExistente);
+                return _mapper.Map<LivroViewModel>(livroExistente);
             }
 
             throw new LivroException("Livro não encontrado");
         }
 
-        public LivroResponseDto AvaliarLivro(int id, int novaNota)
+        public LivroViewModel AvaliarLivro(int id, int novaNota)
         {
             Livro livro = _repository.GetById(id);
 
@@ -118,7 +119,7 @@ namespace OnlyBooksApi.Application.Services
 
                 _repository.Update(livro);
 
-                return _mapper.Map<LivroResponseDto>(livro);
+                return _mapper.Map<LivroViewModel>(livro);
 
             }
 

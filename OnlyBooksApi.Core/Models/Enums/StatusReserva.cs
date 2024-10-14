@@ -4,6 +4,7 @@
     {
         Pendente = 0,
         Concluida = 1,
-        Cancelada = 2
+        Confirmada = 2,
+        Cancelada = 3
     }
 }

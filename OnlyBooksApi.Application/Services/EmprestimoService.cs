@@ -8,6 +8,7 @@ using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models;
 using OnlyBooksApi.Core.Models.Dtos;
 using OnlyBooksApi.Core.Models.Enums;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Application.Services
 {
@@ -28,14 +29,22 @@ namespace OnlyBooksApi.Application.Services
             _bus = bus;
         }
 
-        public async Task<BaseMessageResponse> CreateAsync(CreateEmprestimoDto entity)
+        public async Task<CreateEmprestimoAsyncViewModel> CreateAsync(CreateEmprestimoDto entity)
         {
             try
             {
                 var sendEndpoint = await _bus.GetSendEndpoint(new Uri(QueueNames.EmprestimosQueue));
                 await sendEndpoint.Send(entity);
 
-                return new BaseMessageResponse("Sua requisição para criação de empréstimo está sendo processada");
+                var reserva = _reservaService.GetById(entity.ReservaId);
+
+                if (reserva == null)
+                {
+                    throw new ReservaException($"Reserva não encontrada com ID {entity.ReservaId}");
+                }
+
+
+                return new CreateEmprestimoAsyncViewModel { Msg = "Sua requisição para criação de empréstimo está sendo processada", ReservaId = entity.ReservaId, DataDevolucao = entity.DataDevolucao};
             }
             catch (Exception ex)
             {
@@ -44,49 +53,28 @@ namespace OnlyBooksApi.Application.Services
 
         }
 
-        public List<EmprestimoDto> GetAll()
+        public List<EmprestimoViewModel> GetAll()
         {
             IEnumerable<Emprestimo> emprestimos = _repository.GetAll();
 
-            List<EmprestimoDto> emprestimosDtos = _mapper.Map<List<EmprestimoDto>>(emprestimos);
+            List<EmprestimoViewModel> emprestimosDtos = _mapper.Map<List<EmprestimoViewModel>>(emprestimos);
 
             return emprestimosDtos;
         }
 
-        public List<LivroResponseDto> GetLivrosEmprestados()
-        {
-            IEnumerable<Emprestimo> emprestimosAtivosOuAtrasados = _repository.GetAll()
-                                                .Where(e => e.StatusEmprestimo == StatusEmprestimo.Ativo || e.StatusEmprestimo == StatusEmprestimo.Atrasado);
-
-            List<LivroResponseDto> livros = new();
-
-            foreach (Emprestimo e in emprestimosAtivosOuAtrasados)
-            {
-                List<Livro> livrosEmp = e.Reserva.Livros;
-
-                foreach (Livro item in livrosEmp)
-                {
-                    livros.Add(_mapper.Map<LivroResponseDto>(item));
-                }
-            }
-
-            return livros;
-
-        }
-
-        public EmprestimoDto GetById(int id)
+        public EmprestimoViewModel GetById(int id)
         {
             Emprestimo emprestimo = _repository.GetById(id);
 
             if (emprestimo != null)
             {
-                return _mapper.Map<EmprestimoDto>(emprestimo);
+                return _mapper.Map<EmprestimoViewModel>(emprestimo);
             }
 
             throw new EmprestimoException("Empréstimo não encontrado");
         }
 
-        public EmprestimoDto UpdateStatus(int id, StatusEmprestimo novoStatus)
+        public EmprestimoViewModel UpdateStatus(int id, StatusEmprestimo novoStatus)
         {
             var emprestimoExistente = _repository.GetById(id);
 
@@ -94,7 +82,7 @@ namespace OnlyBooksApi.Application.Services
             {
                 emprestimoExistente.StatusEmprestimo = novoStatus;
                 _repository.Update(emprestimoExistente);
-                return _mapper.Map<EmprestimoDto>(emprestimoExistente);
+                return _mapper.Map<EmprestimoViewModel>(emprestimoExistente);
             }
 
             throw new EmprestimoException("Empréstimo não encontrado");

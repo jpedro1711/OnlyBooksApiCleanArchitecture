@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlyBooksApi.Core.Models;
 using OnlyBooksApi.Core.Models.Dtos;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Core.Models.MappingProfiles
 {
@@ -8,14 +9,14 @@ namespace OnlyBooksApi.Core.Models.MappingProfiles
     {
         public ReservaMapperProfile()
         {
-            CreateMap<Reserva, ReservaDto>()
+            CreateMap<Reserva, ReservaViewModel>()
                 .ForMember(dest => dest.Livros, opt => opt.MapFrom(src => src.Livros))
                 .ReverseMap();
-            CreateMap<ReservaDto, CreateReservaDto>().ReverseMap();
-            CreateMap<CreateReservaDto, ReservaDto>().ReverseMap();
+            CreateMap<ReservaViewModel, CreateReservaDto>().ReverseMap();
+            CreateMap<CreateReservaDto, ReservaViewModel>().ReverseMap();
             CreateMap<CreateReservaDto, Reserva>().ReverseMap();
             CreateMap<Reserva, UpdateReservaDto>().ReverseMap();
-            CreateMap<UpdateReservaDto, ReservaDto>().ReverseMap();
+            CreateMap<UpdateReservaDto, ReservaViewModel>().ReverseMap();
         }
     }
 }

@@ -4,6 +4,7 @@ using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
 using OnlyBooksApi.Core.Models;
 using OnlyBooksApi.Core.Models.Dtos;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Application.Services
 {
@@ -18,13 +19,13 @@ namespace OnlyBooksApi.Application.Services
             _mapper = mapper;
         }
 
-        public UsuarioResponseDto Create(CreateOrUpdateUsuarioDto entity)
+        public UsuarioViewModel Create(CreateOrUpdateUsuarioDto entity)
         {
             Usuario usuario = _mapper.Map<Usuario>(entity);
 
             _repository.Add(usuario);
 
-            return _mapper.Map<UsuarioResponseDto>(usuario);
+            return _mapper.Map<UsuarioViewModel>(usuario);
         }
 
         public void Delete(int id)
@@ -40,28 +41,28 @@ namespace OnlyBooksApi.Application.Services
             throw new UsuarioException("Usuário não encontrado");
         }
 
-        public List<UsuarioResponseDto> GetAll()
+        public List<UsuarioViewModel> GetAll()
         {
             IEnumerable<Usuario> usuarios = _repository.GetAll();
 
-            List<UsuarioResponseDto> usuariosDtos = _mapper.Map<List<UsuarioResponseDto>>(usuarios);
+            List<UsuarioViewModel> usuariosDtos = _mapper.Map<List<UsuarioViewModel>>(usuarios);
 
             return usuariosDtos;
         }
 
-        public UsuarioResponseDto GetById(int id)
+        public UsuarioViewModel GetById(int id)
         {
             Usuario usuario = _repository.GetById(id);
 
             if (usuario != null)
             {
-                return _mapper.Map<UsuarioResponseDto>(usuario);
+                return _mapper.Map<UsuarioViewModel>(usuario);
             }
 
             throw new UsuarioException("Usuário não encontrado");
         }
 
-        public UsuarioResponseDto Update(int id, CreateOrUpdateUsuarioDto dto)
+        public UsuarioViewModel Update(int id, CreateOrUpdateUsuarioDto dto)
         {
             Usuario usuarioExistente = _repository.GetById(id);
 
@@ -71,7 +72,7 @@ namespace OnlyBooksApi.Application.Services
 
                 _repository.Update(usuarioExistente);
 
-                return _mapper.Map<UsuarioResponseDto>(usuarioExistente);
+                return _mapper.Map<UsuarioViewModel>(usuarioExistente);
             }
 
             throw new UsuarioException("Usuário não encontrado");

@@ -1,13 +1,14 @@
 ﻿using OnlyBooksApi.Core.Models.Dtos;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Application.Interfaces.Services
 {
     public interface IUsuarioService
     {
-        List<UsuarioResponseDto> GetAll();
-        UsuarioResponseDto Create(CreateOrUpdateUsuarioDto entity);
-        UsuarioResponseDto GetById(int id);
-        UsuarioResponseDto Update(int id, CreateOrUpdateUsuarioDto entity);
+        List<UsuarioViewModel> GetAll();
+        UsuarioViewModel Create(CreateOrUpdateUsuarioDto entity);
+        UsuarioViewModel GetById(int id);
+        UsuarioViewModel Update(int id, CreateOrUpdateUsuarioDto entity);
         void Delete(int id);
     }
 }

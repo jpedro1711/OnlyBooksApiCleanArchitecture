@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using OnlyBooksApi.Core.Models.Dtos;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Core.Models.MappingProfiles
 {
@@ -8,9 +9,9 @@ namespace OnlyBooksApi.Core.Models.MappingProfiles
         public UsuarioMapperProfile()
         {
             CreateMap<Usuario, CreateOrUpdateUsuarioDto>().ReverseMap();
-            CreateMap<Usuario, UsuarioResponseDto>().ReverseMap();
-            CreateMap<UsuarioResponseDto, CreateOrUpdateUsuarioDto>().ReverseMap();
-            CreateMap<UsuarioResponseDto, CreateOrUpdateUsuarioDto>().ReverseMap();
+            CreateMap<Usuario, UsuarioViewModel>().ReverseMap();
+            CreateMap<UsuarioViewModel, CreateOrUpdateUsuarioDto>().ReverseMap();
+            CreateMap<UsuarioViewModel, CreateOrUpdateUsuarioDto>().ReverseMap();
         }
     }
 }

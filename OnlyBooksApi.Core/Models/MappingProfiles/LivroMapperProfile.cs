@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlyBooksApi.Core.Models;
 using OnlyBooksApi.Core.Models.Dtos;
+using OnlyBooksApi.Core.Models.ViewModels;
 
 namespace OnlyBooksApi.Core.Models.MappingProfiles
 {
@@ -12,9 +13,9 @@ namespace OnlyBooksApi.Core.Models.MappingProfiles
             CreateMap<Livro, CreateLivroDto>().ReverseMap();
             CreateMap<LivroDto, Livro>()
                 .ForMember(dest => dest.GeneroLivroId, opt => opt.Ignore());
-            CreateMap<LivroResponseDto, Livro>()
+            CreateMap<LivroViewModel, Livro>()
                 .ForMember(dest => dest.GeneroLivroId, opt => opt.Ignore());
-            CreateMap<Livro, LivroResponseDto>().ReverseMap();
+            CreateMap<Livro, LivroViewModel>().ReverseMap();
         }
     }
 }

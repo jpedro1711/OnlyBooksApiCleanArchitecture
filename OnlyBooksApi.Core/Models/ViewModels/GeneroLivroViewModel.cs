@@ -1,6 +1,6 @@
-﻿namespace OnlyBooksApi.Core.Models.Dtos
+﻿namespace OnlyBooksApi.Core.Models.ViewModels
 {
-    public class UsuarioResponseDto
+    public class GeneroLivroViewModel
     {
         public int Id { get; set; }
         public string Nome { get; set; }
