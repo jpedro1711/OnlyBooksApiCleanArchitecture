@@ -1,4 +1,5 @@
-﻿using OnlyBooksApi.Core.Models.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using OnlyBooksApi.Core.Models.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlyBooksApi.Core.Models.Dtos
@@ -11,6 +12,6 @@ namespace OnlyBooksApi.Core.Models.Dtos
         public double NotaAvaliacao { get; set; } = 0;
         public int totalAvaliações { get; set; } = 0;
         public int GeneroLivroId { get; set; }
-        public string? ImageUrl { get; set; }
+        public IFormFile? fileImage { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OnlyBooksApi.Application.Interfaces.Providers;
 using OnlyBooksApi.Application.Interfaces.Repositories;
 using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Core.Exceptions;
@@ -13,12 +14,14 @@ namespace OnlyBooksApi.Application.Services
     {
         private readonly ILivroRepository _repository;
         private readonly IGeneroLivroService _generoLivroService;
+        private readonly IBlobStorageProvider _blobStorageProvider;
         private readonly IMapper _mapper;
-        public LivroService(ILivroRepository repository, IGeneroLivroService generoLivroService, IMapper mapper)
+        public LivroService(ILivroRepository repository, IGeneroLivroService generoLivroService, IMapper mapper, IBlobStorageProvider blobStorageProvider)
         {
             _repository = repository;
             _mapper = mapper;
             _generoLivroService = generoLivroService;
+            _blobStorageProvider = blobStorageProvider;
         }
 
         public LivroViewModel Create(CreateLivroDto entity)
@@ -30,6 +33,11 @@ namespace OnlyBooksApi.Application.Services
             livro.GeneroLivroId = genero.Id;
 
             _repository.Add(livro);
+
+            if (entity.fileImage != null)
+            {
+                _blobStorageProvider.UploadFile(entity.fileImage, entity.Titulo + "-" + livro.Id);
+            }
 
             return _mapper.Map<LivroViewModel>(livro);
         }
@@ -53,8 +61,19 @@ namespace OnlyBooksApi.Application.Services
 
             List<LivroViewModel> livrosDtos = _mapper.Map<List<LivroViewModel>>(livros);
 
+            foreach (var livroDto in livrosDtos)
+            {
+                var fileUri = _blobStorageProvider.GetFile(livroDto.Titulo + "-" + livroDto.Id);
+
+                if (fileUri != null)
+                {
+                    livroDto.BlobUrl = new Uri(fileUri);
+                }
+            }
+
             return livrosDtos;
         }
+
 
         public LivroViewModel GetById(int id)
         {
@@ -62,7 +81,16 @@ namespace OnlyBooksApi.Application.Services
 
             if (livro != null)
             {
-                return _mapper.Map<LivroViewModel>(livro);
+                var viewModel = _mapper.Map<LivroViewModel>(livro);
+
+                var fileUri = _blobStorageProvider.GetFile(livro.Titulo + "-" + livro.Id);
+
+                if (fileUri != null)
+                {
+                    viewModel.BlobUrl = new Uri(fileUri);
+                }
+
+                return viewModel;
             }
 
             throw new NotFoundException("Livro não encontrado");

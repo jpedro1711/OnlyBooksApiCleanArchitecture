@@ -1,12 +1,19 @@
+using Azure.Storage.Blobs;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using OnlyBooksApi.Application.Interfaces.Providers;
 using OnlyBooksApi.Application.Interfaces.Repositories;
 using OnlyBooksApi.Application.Interfaces.Services;
 using OnlyBooksApi.Application.Services;
+using OnlyBooksApi.Infrastructure.AzureBlobStorage;
 using OnlyBooksApi.Infrastructure.Data;
 using OnlyBooksApi.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton(u => new BlobServiceClient(
+        builder.Configuration.GetConnectionString("BlobConnection")
+    ));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -29,6 +36,7 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IEmprestimoService, EmprestimoService>();
 builder.Services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
+builder.Services.AddScoped<IBlobStorageProvider, BlobStorageProvider>();
 
 builder.Services.AddCors(options =>
 {

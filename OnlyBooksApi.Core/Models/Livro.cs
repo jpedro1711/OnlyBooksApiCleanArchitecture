@@ -21,5 +21,6 @@ namespace OnlyBooksApi.Core.Models
         public GeneroLivro? Genero { get; set; }
         [JsonIgnore]
         public ICollection<ReservaLivro> ReservaLivros { get; set; }
+        
     }
 }
