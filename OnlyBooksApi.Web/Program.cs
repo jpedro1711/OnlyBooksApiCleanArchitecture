@@ -1,62 +1,10 @@
-using Azure.Storage.Blobs;
-using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using OnlyBooksApi.Application.Interfaces.Providers;
-using OnlyBooksApi.Application.Interfaces.Repositories;
-using OnlyBooksApi.Application.Interfaces.Services;
-using OnlyBooksApi.Application.Services;
-using OnlyBooksApi.Infrastructure.AzureBlobStorage;
-using OnlyBooksApi.Infrastructure.Data;
-using OnlyBooksApi.Infrastructure.Repositories;
+using OnlyBooksApi.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton(u => new BlobServiceClient(
-        builder.Configuration.GetConnectionString("BlobConnection")
-    ));
+IoC ioC = new IoC(builder.Configuration);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-builder.Services.AddDbContext<OnlyBooksDbContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-}, ServiceLifetime.Transient);
-
-builder.Services.AddScoped<IGeneroLivroRepository, GeneroLivroRepository>();
-builder.Services.AddScoped<IGeneroLivroService, GeneroLivroService>();
-builder.Services.AddScoped<ILivroService, LivroService>();
-builder.Services.AddScoped<ILivroRepository, LivroRepository>();
-builder.Services.AddScoped<IReservaService, ReservaService>();
-builder.Services.AddScoped<IReservaRepository, ReservaRepository>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<IEmprestimoService, EmprestimoService>();
-builder.Services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
-builder.Services.AddScoped<IBlobStorageProvider, BlobStorageProvider>();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOrigins", builder =>
-    {
-        builder.AllowAnyOrigin()      
-               .AllowAnyMethod()      
-               .AllowAnyHeader();    
-    });
-});
-
-builder.Services.AddMassTransit(x =>
-{
-    x.UsingAzureServiceBus((context, cfg) =>
-    {
-        string azureServiceBusConnection = builder.Configuration.GetConnectionString("AzureServiceBus");
-
-        cfg.Host(azureServiceBusConnection);
-    });
-});
+ioC.Configure(builder.Services);
 
 var app = builder.Build();
 
