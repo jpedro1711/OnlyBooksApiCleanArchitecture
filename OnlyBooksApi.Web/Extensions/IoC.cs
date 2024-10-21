@@ -1,6 +1,9 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Storage.Blobs;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration.Json;
 using OnlyBooksApi.Application.Interfaces.Providers;
 using OnlyBooksApi.Application.Interfaces.Repositories;
 using OnlyBooksApi.Application.Interfaces.Services;
@@ -104,6 +107,29 @@ namespace OnlyBooksApi.Web.Extensions
         {
             services.AddControllers();
             services.AddEndpointsApiExplorer();
+        }
+
+        public void ConfigureKeyVault(IConfigurationBuilder builder)
+        {
+            string? keyVaultEndpoint = _configuration["KEYVAULT_ENDPOINT"];
+
+            if (keyVaultEndpoint is null)
+                throw new InvalidOperationException("KeyVault Inválido");
+
+            builder.AddAzureKeyVault(new Uri(keyVaultEndpoint), new DefaultAzureCredential());
+        }
+
+        public void WriteConfigurationSources(IConfigurationBuilder config)
+        {
+            Console.WriteLine("Configuration sources\n=====================");
+            foreach (var source in config.Sources)
+            {
+                if (source is JsonConfigurationSource jsonSource)
+                    Console.WriteLine($"{source}: {jsonSource.Path}");
+                else
+                    Console.WriteLine(source.ToString());
+            }
+            Console.WriteLine("=====================\n");
         }
     }
 }
