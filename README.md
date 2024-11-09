@@ -62,7 +62,7 @@ Disponível em: [GitHub](https://github.com/jpedro1711/pjbl-arq-software/blob/ma
 ## Technical Context 
 
 ### C4 Model nível 2![](https://mermaid.ink/img/pako:eNqVVttuGjEQ_RXLT6lEEppCCLxBKWmkXmhJValCqsx6oFZ37Y29JoWIj-lT1b73C_ixjte77AVo0xUgezw-M3PmsjzQQHGgPfq89VzJhAkJeioJPolIQiA7IRkKttAsIqdkIkwCESMcyEDMQqESCNhU-mtj0EbJE2ss00I1yJR-MHb7HdeEMzIr9OnxM3JngSxAgwwEI4hkiAYDeokLNBqKpVZmSp9ULM4taiuZWx357VHLO8-9RsWiMpmNRskuCm3mrSFAIIr19qdJRJS54p2ZrBw3nwfKSs706sR4rgqenO3DBNIn5MGDuGdHfIE11yh7IXkuSMN0MpC8druCcHIPs34cO_WPMCO4JJNx39OQCUIRsATp8sL-2upy6lHBH4y1WgrjWCaJ4sgKfnLeQ8EZB1PLZMw0q_A2L-XFnM8qWShy6p5NzukROlgsykwMWPD1X0T0xzcLlsA9Ww1GozTS8Q259pJzFGXhF0IveA9caEijJGkt3llkYftj-xvjTSNkxF1SlnjqXJCOznJl7HvjAqjUhcPg6kh__T0z7irWaow2t9-XEJIYQrWr6AhkoorWKcq6UcnNYvsLQdWhJsufI7EMZyczJgM1ZNzB545O3r3Kus0dOljuFJycTNABnDXeex2xNSC7_pgfaMBHeVr1rqgU58woy0m5ZryX-Ylnc698akkrY-1jlNNUlV3n06U8OTAUAyRQkZXYgW5BXiu5UMMB6Sch2-e_znrktZ2B2sUDtGcaBznXELK0wt2GOc_KbtYGaM2pTaVpK737HsLiXVDMoQ-JCMU6Gw95lepi2gLBOWOZ09G7BLuLL29vx5Nz97vzwpmoDP9Hm2nUc_EISzn43igZsTUq1CdDgZVCTSpYNYy9eVCeO8WY-S_IerUegjxQrEfQax5WW_7V9pd7L5pAwzKruKzShm_P3ry4rSJVHSuV8VGYvL6HWqSDA9Fog0aAdSw4_oNJ23ZKky8QwZT2cMlhzmyYTOlUblCV2URNVjKgvURbaFCt7OIL7c1ZaHBnY47EZf9ydtKYyU9KRfkV3NLeA_1Ge6cXnc5Z8_Ky2XraarWbF-0GXaH0stU9u-o-a19cXTXbVxedTYOu0_vPzprtZufyabON326329n8AehoK6U?type=png)
-Disponível em: [GitHub](https://github.com/jpedro1711/pjbl-arq-software/blob/main/c4modelLevel2.png)
+Disponível em: (https://evidenciaspjbl.blob.core.windows.net/evidencias/OnlyBooksContainer.png)
 
 # Solution Strategy
 
@@ -138,7 +138,7 @@ Serão implementadas estratégias de testes automatizados para garantir a qualid
 ## Visão Geral
 
 O sistema de gerenciamento de bibliotecas é composto por três camadas principais: o **Frontend** (React), o **Backend API** (.NET Core), e os **Bancos de Dados** (MongoDB e SQL Server). Abaixo, detalhamos os principais blocos de construção de cada camada.
-![C4 Model Container](https://evidenciaspjbl.blob.core.windows.net/evidencias/OnlyBooksContainer.png)
+![C4 Model Container]([https://evidenciaspjbl.blob.core.windows.net/evidencias/OnlyBooksContainer.png])
 ### 1. Frontend (React)
 
 O frontend é responsável por fornecer a interface de usuário para bibliotecários e usuários. Ele se comunica com a API via requisições HTTP (REST) para enviar e receber dados. A interface é organizada em componentes React reutilizáveis.
